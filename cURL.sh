@@ -6,6 +6,7 @@ url_list="$2"
 
 # Memeriksa apakah argumen telah diberikan
 if [ -z "$file_to_upload" ] || [ -z "$url_list" ]; then
+  echo "https://www.msverse.site/"
   echo "Usage: ./cURL.sh <file_to_upload> <url_list>"
   exit 1
 fi
