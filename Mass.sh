@@ -1,5 +1,9 @@
 #!/bin/bash
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
 # Menyimpan argumen dalam variabel
 file_to_upload="$1"
 url_list="$2"
@@ -23,17 +27,19 @@ if [ ! -f "$url_list" ]; then
   exit 1
 fi
 
-# Mengunggah file ke setiap URL
-while IFS= read -r url
-do
+# Mengunggah file ke setiap URL secara paralel (maksimum 4 proses)
+cat "$url_list" | xargs -P 4 -I {} bash -c '
+  url="$1"
+  file="$2"
+
   # Mengunggah file ke URL menggunakan curl
-  result=$(curl --max-time 10 --write-out "%{http_code}\n" --silent --output /dev/null -T "$file_to_upload" "$url")
+  result=$(curl --max-time 10 --write-out "%{http_code}\n" --silent --output /dev/null -T "$file" "$url")
 
   if [ $result -eq 201 ] || [ $result -eq 204 ] || [ $result -eq 200 ]; then
-    echo -e "Upload berhasil ke $url"
+    echo -e "${GREEN}[${RED}+${GREEN}]${NC} $url ${GREEN}=> OK${NC}"
     echo ""
   else
-    echo -e "Upload gagal ke $url"
+    echo -e "${GREEN}[${RED}+${GREEN}]${NC} $url ${GREEN}=> ERROR${NC}"
     echo ""
   fi
-done < "$url_list"
+' _ {} "$file_to_upload"
