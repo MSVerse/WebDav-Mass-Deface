@@ -1,14 +1,14 @@
-# cURL
-![cURL](20230621_140849.jpg)
+# WebDav Mass Deface
+![WebDav](20230621_140849.jpg)
 
-Script Upload File with cURL
+WebDav Mass Deface with cURL
 
 # setup
 ```
-git clone https://github.com/MSVerse/cURL
-cd cURL
-chmod +x cURL.sh
-./cURL.sh <file_upload> <url_file>
+git clone https://github.com/MSVerse/WebDav-Mass-Deface
+cd WebDav-Mass-Deface
+chmod +x Mass.sh
+./Mass.sh <file_upload> <url_file>
 ```
 
 # Website
