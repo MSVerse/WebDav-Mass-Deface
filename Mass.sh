@@ -1,9 +1,5 @@
 #!/bin/bash
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m' # No Color
-
 # Menyimpan argumen dalam variabel
 file_to_upload="$1"
 url_list="$2"
@@ -36,10 +32,10 @@ cat "$url_list" | xargs -P 4 -I {} bash -c '
   result=$(curl --max-time 10 --write-out "%{http_code}\n" --silent --output /dev/null -T "$file" "$url")
 
   if [ $result -eq 201 ] || [ $result -eq 204 ] || [ $result -eq 200 ]; then
-    echo -e "${GREEN}[${RED}+${GREEN}]${NC} $url ${GREEN}=> OK${NC}"
+    echo "[+] $url => OK"
     echo ""
   else
-    echo -e "${GREEN}[${RED}+${GREEN}]${NC} $url ${GREEN}=> ERROR${NC}"
+    echo "[+] $url => ERROR"
     echo ""
   fi
 ' _ {} "$file_to_upload"
